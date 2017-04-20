@@ -51,6 +51,9 @@ do_install() {
 	if [ -f "${B}/out/${CHROMIUM_BUILD_TYPE}/chrome" ]; then
 		install -Dm 0755 ${B}/out/${CHROMIUM_BUILD_TYPE}/chrome ${D}${bindir}/${BPN}/chrome
 	fi
+	if [ -f "${B}/out/${CHROMIUM_BUILD_TYPE}/chromedriver" ]; then
+		install -Dm 0755 ${B}/out/${CHROMIUM_BUILD_TYPE}/chromedriver ${D}${bindir}/${BPN}/chromedriver
+	fi
 	if [ -f "${B}/out/${CHROMIUM_BUILD_TYPE}/icudtl.dat" ]; then
 		install -Dm 0644 ${B}/out/${CHROMIUM_BUILD_TYPE}/icudtl.dat ${D}${bindir}/${BPN}/icudtl.dat
 	fi
@@ -87,16 +90,18 @@ do_install() {
 
 }
 
-PACKAGES =+ "${PN}-codecs-ffmpeg ${PN}-plugin-pdf"
+PACKAGES =+ "${PN}-codecs-ffmpeg ${PN}-plugin-pdf ${PN}-chromedriver"
 
 FILES_${PN}-codecs-ffmpeg = "${libdir}/${BPN}/libffmpegsumo.so"
 FILES_${PN}-plugin-pdf = "${libdir}/${BPN}/libpdf.so"
+FILES_${PN}-chromedriver = "${bindir}/${BPN}/chromedriver"
 
 FILES_${PN} = "${bindir}/${BPN} ${datadir}/applications ${sbindir}/ ${libdir}/${BPN}/"
 FILES_${PN} += "${bindir} ${libdir}"
 FILES_${PN} += "${bindir}/${BPN}/*.pak"
 FILES_${PN} += "${bindir}/${BPN}/locales/*.pak"
 
+FILES_${PN}-chromedriver-dbg += "${bindir}/${BPN}/.debug/chromedriver"
 FILES_${PN}-dbg += "${bindir}/${BPN}/.debug/ ${libdir}/${BPN}/.debug/ ${libdir}/.debug/"
 
 PACKAGE_DEBUG_SPLIT_STYLE = "debug-without-src"
